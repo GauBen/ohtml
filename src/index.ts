@@ -41,9 +41,6 @@ function visitElement(
   files: File[]
 ): ElementContent[] | ElementContent | undefined {
   if (
-    node.tagName === "h1" ||
-    node.tagName === "h2" ||
-    node.tagName === "h3" ||
     node.tagName === "p" ||
     node.tagName === "table" ||
     node.tagName === "thead" ||
@@ -63,6 +60,23 @@ function visitElement(
         .map((child) => visitNode(child, files))
         .flat()
         .filter((child) => child !== undefined),
+    };
+  }
+
+  if (node.tagName === "h1" || node.tagName === "h2" || node.tagName === "h3") {
+    return {
+      type: "element",
+      tagName: node.tagName,
+      properties: {},
+      children: node.children
+        .map((child) => visitNode(child, files))
+        .flat()
+        .filter((child) => child !== undefined)
+        .flatMap((child) => {
+          if (child.type === "element" && child.tagName === "strong")
+            return child.children;
+          return child;
+        }),
     };
   }
 
