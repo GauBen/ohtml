@@ -1,0 +1,20 @@
+{
+  "name": "ohtml",
+  "type": "module",
+  "packageManager": "yarn@4.10.3",
+  "dependencies": {
+    "hast-util-from-html-isomorphic": "^2.0.0",
+    "hast-util-to-html": "^9.0.5",
+    "unist-util-visit-parents": "^6.0.1",
+    "zimmerframe": "^1.1.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "rolldown": "^1.0.0-beta.41",
+    "sirv-cli": "^3.0.1"
+  },
+  "scripts": {
+    "build": "rolldown src/index.ts --minify --file dist/index.js",
+    "dev": "node --test --watch & sirv output --dev"
+  }
+}
