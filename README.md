@@ -32,3 +32,5 @@ for (const file of files) {
 
 // html now is `<p><img src="/path/to/image.png"/></p>`
 ```
+
+Check [src/index.html](https://github.com/GauBen/ohtml/blob/41609b5e8d8f240a35a34fe206b1035505e08451/src/index.html#L70-L77) for a complete example.
