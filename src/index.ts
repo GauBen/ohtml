@@ -70,9 +70,11 @@ function visitElement(
     const src = node.properties.src;
     if (typeof src === "string" && src.startsWith("data:")) {
       const type = src.substring(5, src.indexOf(";"));
-      const name = `￼${files.length}`;
-      const blob = Buffer.from(src.slice(src.indexOf("base64,") + 7), "base64");
-      files.push(new File([blob], name, { type }));
+      const name = `￼_${files.length}_`;
+      const binary = atob(src.slice(src.indexOf("base64,") + 7));
+      const buffer = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) buffer[i] = binary.charCodeAt(i);
+      files.push(new File([buffer], name, { type }));
 
       return {
         type: "element",
@@ -103,7 +105,7 @@ function visitElement(
 
   if (
     typeof node.properties.style === "string" &&
-    node.properties.style.includes("font-weight:700")
+    /font-weight\s?:\s?(bold|[789]\d\d)/.test(node.properties.style)
   ) {
     return {
       type: "element",

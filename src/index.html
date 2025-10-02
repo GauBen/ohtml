@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo</title>
+    <style>
+      main {
+        max-width: 800px;
+        margin: auto;
+        padding: 1rem;
+      }
+
+      pre {
+        white-space: pre-wrap !important;
+        font-size: 0.875em !important;
+        word-break: break-all !important;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section style="border: 1px dotted black; padding: 1rem" id="output">
+        Paste here
+      </section>
+      <details>
+        <summary>Original HTML</summary>
+        <pre id="code-input" class="language-html">Nothing yet...</pre>
+      </details>
+      <details>
+        <summary>Processed HTML</summary>
+        <pre id="code-output" class="language-html">Too soon!</pre>
+      </details>
+    </main>
+    <script type="module">
+      import "@picocss/pico";
+      import { process } from "./index.ts";
+      import Prism from "prismjs";
+      import "prismjs/themes/prism.css";
+
+      Prism.manual = true;
+
+      const output = document.getElementById("output");
+      const codeInput = document.getElementById("code-input");
+      const codeOutput = document.getElementById("code-output");
+
+      window.addEventListener("paste", (event) => {
+        event.preventDefault();
+        const paste = event.clipboardData.getData("text/html");
+        if (!paste) return;
+
+        let { html, files } = process(paste);
+        console.log(`Received ${files.length} files`, files);
+
+        for (const file of files) {
+          const url = URL.createObjectURL(file);
+          html = html.replace(file.name, url);
+        }
+        output.innerHTML = html;
+
+        codeInput.textContent = paste;
+        Prism.highlightElement(codeInput);
+        codeOutput.textContent = html;
+        Prism.highlightElement(codeOutput);
+      });
+    </script>
+  </body>
+</html>
