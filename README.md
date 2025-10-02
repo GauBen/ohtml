@@ -23,6 +23,7 @@ const inputHtml = `<p><img src="data:image/png;base64,iV..."/></p>`;
 let { html, files } = process(inputHtml);
 
 // html is `<p><img src="￼_0_"/></p>`, it contains a placeholder for the image
+//                       ^ This is the [OBJ] character (U+FFFC)
 
 for (const file of files) {
   const url = await upload(file); // returns `/path/to/image.png`
