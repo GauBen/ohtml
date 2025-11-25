@@ -1,7 +1,15 @@
 {
   "name": "ohtml",
   "type": "module",
-  "packageManager": "yarn@4.10.3",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build:lib": "rolldown src/index.ts --minify --file dist/index.js",
+    "build:web": "vite build src --outDir ../build",
+    "dev:node": "node --test --watch & sirv output --dev",
+    "dev:web": "vite src"
+  },
   "dependencies": {
     "hast-util-from-html-isomorphic": "^2.0.0",
     "hast-util-to-html": "^9.0.5"
@@ -14,10 +22,5 @@
     "sirv-cli": "^3.0.1",
     "vite": "^7.1.8"
   },
-  "scripts": {
-    "build:lib": "rolldown src/index.ts --minify --file dist/index.js",
-    "build:web": "vite build src --outDir ../build",
-    "dev:node": "node --test --watch & sirv output --dev",
-    "dev:web": "vite src"
-  }
+  "packageManager": "yarn@4.10.3"
 }
